@@ -1,6 +1,7 @@
 package com.netcracker.controller;
 
 import com.netcracker.device.Devices;
+import com.netcracker.device.Nic;
 import com.netcracker.device.parsetoPOJOfromJSON.Parse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
