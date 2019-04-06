@@ -1,37 +1,51 @@
 package com.netcracker.controller;
 
+import com.google.common.collect.Lists;
 import com.netcracker.model.Devices;
-import com.netcracker.parsetoPOJOfromJSON.Parse;
 import com.netcracker.repository.DevRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/model")
+@Api(value = "Network system")
 public class Controller {
 
-    Devices d = new Devices();
     private List<Devices> devices = null;
     @Autowired
     private DevRepository repository;
 
-    @RequestMapping( method = RequestMethod.GET )
-    public Devices getDevices(){
-        try {
-            devices = Parse.parsFromJson();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        repository.saveAll(devices);
-        d = repository.findById(devices.get(0).getId()).get();
-        System.out.println(d);
-        return d;
+    @RequestMapping( method = RequestMethod.GET )
+    @ApiOperation(value = "Show all devices ")
+    public List<Devices> getDevices(){
+        return Lists.newArrayList(repository.findAll());
     }
+
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Get a devices by Id")
+    public Devices getDeviceById(@ApiParam(value = "Id device", required = true) @PathVariable(value = "id") int id) {
+
+        devices = Lists.newArrayList(repository.findAll());
+        Devices dev = repository.findById(devices.get(id).getId()).get();
+        return dev;
+    }
+
+    @PostMapping("/")
+    @ApiOperation(value = "Add device")
+    public Devices createDevevice(
+            @ApiParam(value = "Device object", required = true)
+            @Valid @RequestBody Devices devices){
+        return repository.save(devices);
+    }
+
+
 }
