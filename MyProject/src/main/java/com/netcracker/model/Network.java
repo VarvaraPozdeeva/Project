@@ -2,17 +2,14 @@ package com.netcracker.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @ApiModel(description = "Details about Device. ")
 public class Network {
 
     @ApiModelProperty(notes = "mac ")
-    String mac;
+    private String mac;
     @ApiModelProperty(notes = "ip ")
-    String ip;
+    private  String ip;
 }
