@@ -34,12 +34,6 @@
             <version>2.9.8</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -57,7 +51,6 @@
         <dependency>
             <groupId>com.arangodb</groupId>
             <artifactId>arangodb-spring-boot-starter</artifactId>
-
         </dependency>
 
         <dependency>

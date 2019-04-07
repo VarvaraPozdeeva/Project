@@ -12,34 +12,33 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/model")
+@RequestMapping("/data")
 @Api(value = "Network system")
-public class Controller {
+public class InventoryController {
 
-    private List<Devices> devices = null;
     @Autowired
     private DevRepository repository;
 
 
-    @RequestMapping( method = RequestMethod.GET )
+    @GetMapping("/devices")
     @ApiOperation(value = "Show all devices ")
     public List<Devices> getDevices(){
         return Lists.newArrayList(repository.findAll());
     }
 
 
-    @GetMapping("/{id}")
-    @ApiOperation(value = "Get a devices by Id")
-    public Devices getDeviceById(@ApiParam(value = "Id device", required = true) @PathVariable(value = "id") int id) {
+    @GetMapping("/devices/{id}")
+    @ApiOperation(value = "Get device by id")
+    public Devices getDeviceById(@ApiParam(value = "Device id", required = true) @PathVariable String id) {
 
-        devices = Lists.newArrayList(repository.findAll());
-        Devices dev = repository.findById(devices.get(id).getId()).get();
-        return dev;
+        return repository.findById(id)
+        .orElseThrow(() -> new NoSuchElementException("Unable to find device with id: " + id));
     }
 
-    @PostMapping("/")
+    @PostMapping("/devices")
     @ApiOperation(value = "Add device")
     public Devices createDevevice(
             @ApiParam(value = "Device object", required = true)
