@@ -8,6 +8,6 @@ import lombok.Data;
 @ApiModel(description = "Details about Router. ")
 public class Router {
 
-    @ApiModelProperty(notes = "nets ")
+    @ApiModelProperty(notes = "Nets ")
     private Network[] nets;
 }

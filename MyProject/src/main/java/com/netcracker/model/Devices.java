@@ -14,19 +14,18 @@ import org.springframework.data.annotation.Id;
 public class Devices {
 
     @Id
-    @JsonIgnore
     @ApiModelProperty(notes = "database generated  id")
     private String id;
 
-    @ApiModelProperty(notes = "nics ")
+    @ApiModelProperty(notes = "Nics ")
     @NonNull
     private Nic[] nics;
 
-    @ApiModelProperty(notes = "Switch ")
+    @ApiModelProperty(notes = "Switches ")
     @NonNull
     private Switch[] switches;
 
-    @ApiModelProperty(notes = "Router ")
+    @ApiModelProperty(notes = "Routers ")
     @NonNull
     private Router[] routers;
 }

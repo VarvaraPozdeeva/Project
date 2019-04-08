@@ -7,7 +7,7 @@ import com.netcracker.repository.DevRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,11 +17,10 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/data")
 @Api(value = "Network system")
+@RequiredArgsConstructor
 public class InventoryController {
 
-    @Autowired
-    private DevRepository repository;
-
+    private final DevRepository repository;
 
     @GetMapping("/devices")
     @ApiOperation(value = "Show all devices ")

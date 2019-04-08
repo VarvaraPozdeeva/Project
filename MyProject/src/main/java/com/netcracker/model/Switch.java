@@ -8,6 +8,6 @@ import lombok.Data;
 @ApiModel(description = "Details about Switch. ")
 public class Switch {
 
-    @ApiModelProperty(notes = "ports ")
+    @ApiModelProperty(notes = "Ports ")
     private String[] ports;
 }
