@@ -1,4 +1,5 @@
-﻿### IntelliJ IDEA ###
+﻿target
+
+### IntelliJ IDEA ###
 .idea
 *.iml
-target

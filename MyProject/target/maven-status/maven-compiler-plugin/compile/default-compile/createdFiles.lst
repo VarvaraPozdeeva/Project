@@ -1,8 +1,0 @@
-com\netcracker\device\Router.class
-com\netcracker\device\Devices.class
-com\netcracker\Application.class
-com\netcracker\device\parsetoPOJOfromJSON\Parse.class
-com\netcracker\device\Switch.class
-com\netcracker\controller\Controller.class
-com\netcracker\device\Nic.class
-com\netcracker\device\Network.class
