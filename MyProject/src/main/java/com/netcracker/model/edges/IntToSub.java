@@ -1,28 +1,25 @@
-package com.netcracker.model;
+package com.netcracker.model.edges;
 
 import com.arangodb.springframework.annotation.Edge;
 import com.arangodb.springframework.annotation.From;
 import com.arangodb.springframework.annotation.To;
+import com.netcracker.model.documents.Interface;
+import com.netcracker.model.documents.SubInterface;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 @Data
-@Edge("link")
-@ApiModel(description = "Details about link")
-public class Link {
-
+@Edge
+@ApiModel(description = "Details about int-to-sub")
+public class IntToSub {
     @Id
     private String id;
 
     @From
-    private Interface anInterface;
-    @To
-    private Interface bInterface;
+    private final Interface anInterface;
 
-    private String aNe;
-    private String zNe;
-    private String aInter;
-    private String zInter;
+    @To
+    private final SubInterface subInterface;
 
 }
