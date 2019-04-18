@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@Document("netElement")
+@Document("net-element")
 @ApiModel(description = "Details about Network-element")
 public class NetworkElement {
 

@@ -28,11 +28,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.8</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--            <artifactId>jackson-databind</artifactId>-->
+<!--            <version>2.9.8</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -49,10 +49,10 @@
             <artifactId>arangodb-spring-data</artifactId>
             <version>3.1.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.arangodb</groupId>
-            <artifactId>arangodb-spring-boot-starter</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.arangodb</groupId>-->
+<!--            <artifactId>arangodb-spring-boot-starter</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>io.springfox</groupId>

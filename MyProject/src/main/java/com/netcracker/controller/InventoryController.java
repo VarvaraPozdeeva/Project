@@ -1,9 +1,11 @@
 package com.netcracker.controller;
 
+import com.netcracker.exceptions.ObjectNotFoundException;
 import com.netcracker.model.documents.HardwareComponent;
 import com.netcracker.model.documents.Interface;
 import com.netcracker.model.documents.NetworkElement;
 import com.netcracker.model.documents.SubInterface;
+import com.netcracker.model.edges.IntToSub;
 import com.netcracker.model.edges.Link;
 import com.netcracker.model.edges.NeToHw;
 import com.netcracker.model.edges.NeToInterface;
@@ -19,10 +21,10 @@ import com.netcracker.repository.edges.NeToInterRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -147,28 +149,81 @@ public class InventoryController {
 
     @PostMapping("/network-elements/{id}/interface")
     @ApiOperation(value = "Add interface")
-    public @Valid Interface createInterface(
-            @ApiParam(value = "interface object", required = true)
-            @Valid @RequestBody Interface inter, @PathVariable String id){
+    public Interface createInterface(
+            @ApiParam(value = "network element id", required = true)
+            @PathVariable String id,
+            @ApiParam(value = "interface", required = true)
+            @RequestBody Interface inter ){
 
-        return interfaceRepository.save(inter);
+        NetworkElement networkElement = neRepository.findById(id).orElseThrow(
+                ()-> new ObjectNotFoundException("Unable to find network element with id: " + id ));
+
+        if(networkElement.getInterfaces().contains(inter)){
+            throw new IllegalStateException("Network element with id: " + id + " already has assigned interface");
+        }
+
+        Interface anInterface = interfaceRepository.save(inter);
+
+        NeToInterface neToInterface = new NeToInterface(networkElement, anInterface);
+
+        neToInterRepository.save(neToInterface);
+
+        return anInterface;
     }
 
 
-    @PostMapping("/hardware-components")
+    @PostMapping("/network-elements/{id}/hardware-component")
     @ApiOperation(value = "Add hardware component")
     public HardwareComponent createHardwareComponent(
+            @ApiParam(value = "network element id", required = true)
+            @PathVariable String id,
             @ApiParam(value = "hardware component object", required = true)
-            @Valid @RequestBody HardwareComponent hardwareCom){
+            @RequestBody HardwareComponent hardwareCom){
 
-        return hwRepository.save(hardwareCom);
+        NetworkElement networkElement = neRepository.findById(id).orElseThrow(
+                ()-> new ObjectNotFoundException("Unable to find network element with id: " + id ));
+
+        if(networkElement.getHardwareComponent() != null){
+            throw new IllegalStateException
+                    ("Network element with id: " + id + " already has assigned hardware component");
+        }
+
+        HardwareComponent hwComponent = hwRepository.save(hardwareCom);
+
+        NeToHw neToHw = new NeToHw(networkElement, hwComponent);
+
+        neToHwRepository.save(neToHw);
+
+        return hwComponent;
+    }
+
+    @PostMapping("/interfaces/{id}/sub-interface")
+    @ApiOperation(value = "Add sub interface")
+    public  SubInterface createSubInterface(
+            @ApiParam(value = "Interface id", required = true)
+            @PathVariable String id,
+            @ApiParam(value = "sub interface object", required = true)
+            @RequestBody SubInterface subInter){
+
+        Interface inter = interfaceRepository.findById(id).orElseThrow(
+                ()->new ObjectNotFoundException("Unable to find interface with id: " + id));
+        if(inter.getSubInterfaces().contains(subInter)){
+            throw  new IllegalStateException
+                    ("Interface with id: " + id + " already has assigned sub interface");
+        }
+        SubInterface subInterface = subRepository.save(subInter);
+
+        IntToSub intToSub = new IntToSub(inter, subInterface);
+        intToSubRepository.save(intToSub);
+
+        return subInterface;
     }
 
     @PostMapping("/networkElement")
     @ApiOperation(value = "Add network element")
     public NetworkElement createNetworkElement(
             @ApiParam(value = "network element object", required = true)
-            @Valid @RequestBody NetworkElement networkEl){
+            @RequestBody NetworkElement networkEl){
 
         return neRepository.save(networkEl);
     }
@@ -177,7 +232,7 @@ public class InventoryController {
     @ApiOperation(value = "Add link")
     public Link createLink(
             @ApiParam(value = "link object", required = true)
-            @Valid @RequestBody Link link){
+            @RequestBody Link link){
 
         return linkRepository.save(link);
     }

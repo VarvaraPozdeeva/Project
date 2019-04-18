@@ -19,9 +19,9 @@ public class Link {
     private String id;
 
     @From
-    private Interface anInterface;
+    private final Interface anInterface;
     @To
-    private Interface bInterface;
+    private final Interface bInterface;
     @Field("a-ne")
     @JsonProperty("a-ne")
     private String aNeName;

@@ -8,15 +8,15 @@ import com.netcracker.model.documents.Interface;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
-
-@Edge("ne-to-interface")
 @Data
+@Edge("ne-to-interface")
 public class NeToInterface {
 
     @Id
     private String id;
     @From
-    private NetworkElement ne;
+    private final NetworkElement ne;
     @To
-    private Interface anInterface;
+    private final Interface anInterface;
+
 }

@@ -18,7 +18,9 @@ public class NeToHw {
     private String id;
 
     @From
-    private NetworkElement ne;
+    private final NetworkElement ne;
     @To
-    private HardwareComponent hw;
+    private final HardwareComponent hw;
+
+
 }
