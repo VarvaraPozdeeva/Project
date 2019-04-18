@@ -5,11 +5,14 @@ import com.arangodb.springframework.annotation.From;
 import com.arangodb.springframework.annotation.To;
 import com.netcracker.model.documents.NetworkElement;
 import com.netcracker.model.documents.Interface;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 @Data
 @Edge("ne-to-interface")
+
+@ApiModel(description = "Details about ne-to-interface")
 public class NeToInterface {
 
     @Id

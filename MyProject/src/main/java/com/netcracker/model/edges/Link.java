@@ -10,29 +10,32 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
-@Data
-@Edge("link")
 @ApiModel(description = "Details about link")
+@Edge("link")
+@Data
 public class Link {
 
     @Id
     private String id;
-
     @From
-    private final Interface anInterface;
+    private final Interface interfaceA;
     @To
-    private final Interface bInterface;
+    private final Interface interfaceZ;
+
     @Field("a-ne")
     @JsonProperty("a-ne")
-    private String aNeName;
+    private String neAName;
+
     @Field("z-ne")
     @JsonProperty("z-ne")
-    private String zNeName;
+    private String neZName;
+
     @Field("a-interface")
     @JsonProperty("a-interface")
-    private String aInterName;
-    @Field("z-interface")
-    @JsonProperty("z-interface")
-    private String zInterName;
+    private String interfaceAName;
+
+    @Field("interface-z")
+    @JsonProperty("interface-z")
+    private String interfaceZName;
 
 }

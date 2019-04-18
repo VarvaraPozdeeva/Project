@@ -21,7 +21,6 @@ import com.netcracker.repository.edges.NeToInterRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -228,12 +227,42 @@ public class InventoryController {
         return neRepository.save(networkEl);
     }
 
-    @PostMapping("/links")
+    @PostMapping("/links/{idA}/{idZ}")
     @ApiOperation(value = "Add link")
     public Link createLink(
-            @ApiParam(value = "link object", required = true)
-            @RequestBody Link link){
+            @ApiParam(value = "A-Interface id", required = true)
+            @PathVariable String idA,
+            @ApiParam(value = "Z-Interface id", required = true)
+            @PathVariable String idZ){
 
+        if(idA.equals(idZ)){
+            throw new IllegalStateException("Id must be different");
+        }
+        Interface aInter = interfaceRepository.findById(idA).orElseThrow(
+                ()->new ObjectNotFoundException("Unable to find interface with id: " + idA));
+        Interface zInter = interfaceRepository.findById(idZ).orElseThrow(
+                ()->new ObjectNotFoundException("Unable to find interface with id: " + idZ));
+
+
+       linkRepository.findAll().forEach((link)->{
+           if(link.getInterfaceA().getName().equals(aInter.getName())&& link.getInterfaceZ().getName().equals(zInter.getName())
+           || link.getInterfaceA().getName().equals(zInter.getName())&& link.getInterfaceZ().getName().equals(aInter.getName()))
+              throw  new IllegalStateException
+                       ("Link already exists");
+       });
+
+        Link link = new Link(aInter, zInter);
+        link.setInterfaceAName(aInter.getName());
+        link.setInterfaceZName(zInter.getName());
+
+        neToInterRepository.findAll().forEach((neToInter)->{
+            if(neToInter.getAnInterface().equals(aInter)){
+                link.setNeAName(neToInter.getNe().getName());
+            }
+            if(neToInter.getAnInterface().equals(zInter)){
+                link.setNeZName(neToInter.getNe().getName());
+            }
+        });
         return linkRepository.save(link);
     }
 }
