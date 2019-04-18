@@ -227,33 +227,30 @@ public class InventoryController {
         return neRepository.save(networkEl);
     }
 
-    @PostMapping("/links/{idA}/{idZ}")
+    @PostMapping("/links")
     @ApiOperation(value = "Add link")
     public Link createLink(
-            @ApiParam(value = "A-Interface id", required = true)
-            @PathVariable String idA,
-            @ApiParam(value = "Z-Interface id", required = true)
-            @PathVariable String idZ){
+            @ApiParam(value = "Link object", required = true)
+            @RequestBody Link ln){
 
-        if(idA.equals(idZ)){
-            throw new IllegalStateException("Id must be different");
+        if(ln.getInterAId().equals(ln.getInterZId())){
+            throw new IllegalArgumentException("Id must be different");
         }
-        Interface aInter = interfaceRepository.findById(idA).orElseThrow(
-                ()->new ObjectNotFoundException("Unable to find interface with id: " + idA));
-        Interface zInter = interfaceRepository.findById(idZ).orElseThrow(
-                ()->new ObjectNotFoundException("Unable to find interface with id: " + idZ));
+        Interface aInter = interfaceRepository.findById(ln.getInterAId()).orElseThrow(
+                ()->new ObjectNotFoundException("Unable to find interface with id: " + ln.getInterAId()));
+        Interface zInter = interfaceRepository.findById(ln.getInterZId()).orElseThrow(
+                ()->new ObjectNotFoundException("Unable to find interface with id: " + ln.getInterZId()));
 
 
-       linkRepository.findAll().forEach((link)->{
-           if(link.getInterfaceA().getName().equals(aInter.getName())&& link.getInterfaceZ().getName().equals(zInter.getName())
-           || link.getInterfaceA().getName().equals(zInter.getName())&& link.getInterfaceZ().getName().equals(aInter.getName()))
-              throw  new IllegalStateException
-                       ("Link already exists");
+       linkRepository.findAll().forEach((l)->{
+           if(l.getInterfaceA().getName().equals(aInter.getName())&& l.getInterfaceZ().getName().equals(zInter.getName())
+           || l.getInterfaceA().getName().equals(zInter.getName())&& l.getInterfaceZ().getName().equals(aInter.getName()))
+              throw  new IllegalStateException("Link already exists");
        });
 
-        Link link = new Link(aInter, zInter);
-        link.setInterfaceAName(aInter.getName());
-        link.setInterfaceZName(zInter.getName());
+       Link link = new Link(aInter, zInter);
+       link.setInterAId(aInter.getId());
+       link.setInterZId(zInter.getId());
 
         neToInterRepository.findAll().forEach((neToInter)->{
             if(neToInter.getAnInterface().equals(aInter)){

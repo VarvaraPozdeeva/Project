@@ -4,6 +4,7 @@ import com.arangodb.springframework.annotation.Document;
 import com.arangodb.springframework.annotation.Field;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
@@ -12,6 +13,7 @@ import org.springframework.data.annotation.Id;
 @ApiModel(description = "Details about sub-interface. ")
 public class SubInterface {
     @Id
+    @ApiModelProperty(hidden = true)
     private String id;
 
     private String name;

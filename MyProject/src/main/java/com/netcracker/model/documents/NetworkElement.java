@@ -22,6 +22,7 @@ import java.util.List;
 public class NetworkElement {
 
     @Id
+    @ApiModelProperty(hidden = true)
     private String id;
 
     private String name;

@@ -19,6 +19,7 @@ import java.util.Set;
 public class Interface {
 
     @Id
+    @ApiModelProperty(hidden = true)
     private String id;
 
     private String name;
