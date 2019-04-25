@@ -28,7 +28,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/data")
-@Api(value = "Network system")
+@Api(value = "Network inventory service")
 @RequiredArgsConstructor
 public class InventoryController {
 
@@ -74,20 +74,6 @@ public class InventoryController {
         return neRepository.findAll();
     }
 
-    @GetMapping("/ne-to-hw")
-    @ApiOperation(value = "Show all ne-to-hw ")
-    public Iterable<NeToHw> getNeToHw(){
-
-        return neToHwRepository.findAll();
-    }
-
-    @GetMapping("/ne-to-interface")
-    @ApiOperation(value = "Show all ne-to-interface ")
-    public Iterable<NeToInterface> getNeToInterface(){
-
-        return neToInterRepository.findAll();
-    }
-
     @GetMapping("/interfaces/{id}")
     @ApiOperation(value = "Get interface by id")
     public Interface getInterfaceById(
@@ -123,18 +109,6 @@ public class InventoryController {
     }
 
 
-
-    @GetMapping("/ne-to-hw/{id}")
-    @ApiOperation(value = "Get ne-to-hw by id")
-    public NeToHw getNeToHwById(
-            @ApiParam(value = "ne-to-hw id", required = true)
-            @PathVariable String id) {
-
-        return neToHwRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException
-                        ("Unable to find ne-to-hw with id: " + id));
-    }
-
     @GetMapping("/links/{id}")
     @ApiOperation(value = "Get link by id")
     public Link getLinkById(
@@ -146,7 +120,7 @@ public class InventoryController {
                         ("Unable to find link with id: " + id));
     }
 
-    @PostMapping("/network-elements/{id}/interface")
+    @PostMapping("/interfaces/{id}")
     @ApiOperation(value = "Add interface")
     public Interface createInterface(
             @ApiParam(value = "network element id", required = true)
@@ -171,7 +145,7 @@ public class InventoryController {
     }
 
 
-    @PostMapping("/network-elements/{id}/hardware-component")
+    @PostMapping("/hw-components/{id}")
     @ApiOperation(value = "Add hardware component")
     public HardwareComponent createHardwareComponent(
             @ApiParam(value = "network element id", required = true)
@@ -196,7 +170,7 @@ public class InventoryController {
         return hwComponent;
     }
 
-    @PostMapping("/interfaces/{id}/sub-interface")
+    @PostMapping("/sub-interfaces/{id}")
     @ApiOperation(value = "Add sub interface")
     public  SubInterface createSubInterface(
             @ApiParam(value = "Interface id", required = true)
@@ -218,7 +192,7 @@ public class InventoryController {
         return subInterface;
     }
 
-    @PostMapping("/networkElement")
+    @PostMapping("/network-elements")
     @ApiOperation(value = "Add network element")
     public NetworkElement createNetworkElement(
             @ApiParam(value = "network element object", required = true)
