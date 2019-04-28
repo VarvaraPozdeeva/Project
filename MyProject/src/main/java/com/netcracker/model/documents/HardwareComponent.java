@@ -8,11 +8,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import static com.netcracker.model.CollectionsNames.HARDWARE_COMPONENT;
+
 
 @Data
-@Document("hw-component")
+@Document(HARDWARE_COMPONENT)
 @ApiModel(description = "Details about hardware-component")
-public class HardwareComponent {
+public class HardwareComponent implements DocumentEntity {
 
     @Id
     @ApiModelProperty(hidden = true)

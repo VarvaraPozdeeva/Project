@@ -8,13 +8,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.netcracker.model.documents.Interface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import static com.netcracker.model.CollectionsNames.LINK;
+
 @ApiModel(description = "Details about link")
-@Edge("link")
+@Edge(LINK)
 @Data
-public class Link {
+@Builder
+public class Link implements EdgeEntity {
 
     @Id
     @ApiModelProperty(hidden = true)
@@ -27,22 +31,20 @@ public class Link {
     @ApiModelProperty(hidden = true)
     private final Interface interfaceZ;
 
-    @ApiModelProperty(hidden = true)
     @Field("a-ne")
     @JsonProperty("a-ne")
     private String neAName;
 
-    @ApiModelProperty(hidden = true)
     @Field("z-ne")
     @JsonProperty("z-ne")
     private String neZName;
 
     @Field("a-interface")
     @JsonProperty("a-interface")
-    private String interAId;
+    private String interAName;
 
-    @Field("interface-z")
-    @JsonProperty("interface-z")
-    private String interZId;
+    @Field("z-interface")
+    @JsonProperty("z-interface")
+    private String interZName;
 
 }

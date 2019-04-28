@@ -9,10 +9,12 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import static com.netcracker.model.CollectionsNames.INT_TO_SUB;
+
 @Data
-@Edge("int-to-sub")
+@Edge(INT_TO_SUB)
 @ApiModel(description = "Details about int-to-sub")
-public class IntToSub {
+public class IntToSub implements EdgeEntity {
     @Id
     private String id;
 

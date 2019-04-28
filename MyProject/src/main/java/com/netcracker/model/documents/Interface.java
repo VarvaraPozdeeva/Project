@@ -13,10 +13,12 @@ import org.springframework.data.annotation.Id;
 import java.util.List;
 import java.util.Set;
 
+import static com.netcracker.model.CollectionsNames.INTERFACE;
+
 @Data
-@Document("interface")
+@Document(INTERFACE)
 @ApiModel(description = "Details about interface. ")
-public class Interface {
+public class Interface implements DocumentEntity {
 
     @Id
     @ApiModelProperty(hidden = true)

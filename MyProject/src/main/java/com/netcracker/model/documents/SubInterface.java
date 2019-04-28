@@ -8,10 +8,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import static com.netcracker.model.CollectionsNames.SUB_INTERFACE;
+
 @Data
-@Document("sub-interface")
+@Document(SUB_INTERFACE)
 @ApiModel(description = "Details about sub-interface. ")
-public class SubInterface {
+public class SubInterface  implements  DocumentEntity{
     @Id
     @ApiModelProperty(hidden = true)
     private String id;

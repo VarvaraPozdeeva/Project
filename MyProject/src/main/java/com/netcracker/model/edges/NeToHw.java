@@ -9,10 +9,12 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import static com.netcracker.model.CollectionsNames.NE_TO_HW;
+
 @Data
-@Edge("ne-to-hw")
+@Edge(NE_TO_HW)
 @ApiModel(description = "Details about ne-to-hw")
-public class NeToHw {
+public class NeToHw implements EdgeEntity{
 
     @Id
     private String id;

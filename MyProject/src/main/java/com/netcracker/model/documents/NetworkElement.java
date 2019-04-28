@@ -16,10 +16,12 @@ import org.springframework.data.annotation.Id;
 import java.util.Date;
 import java.util.List;
 
+import static com.netcracker.model.CollectionsNames.NETWORK_ELEMENT;
+
 @Data
-@Document("net-element")
+@Document(NETWORK_ELEMENT)
 @ApiModel(description = "Details about Network-element")
-public class NetworkElement {
+public class NetworkElement implements DocumentEntity {
 
     @Id
     @ApiModelProperty(hidden = true)
