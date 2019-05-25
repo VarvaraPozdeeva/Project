@@ -7,17 +7,17 @@
             <div>
               <h3 class="headline mb-0">Interface</h3>
               <div class="text-xs-left" >
-                <div>Name:  </div>
-                <div>Description:  </div>
-                <div>MAC-address:  </div>
-                <div>Ip-address:  </div>
-                <div>MTU:  </div>
-                <div>Speed:  </div>
-                <div>Duplex:  </div>
-                <div>Admin state:  </div>
-                <div>Port mode  </div>
-                <div>Vlans:  </div>
-                <div>Sub-interfaces:  </div>
+                <div>Name: {{interface['name']}} </div>
+                <div>Description:{{interface['description']}}  </div>
+                <div>MAC-address: {{interface['mac-address']}} </div>
+                <div>Ip-address: {{interface['ip-address']}} </div>
+                <div>MTU: {{interface['mtu']}} </div>
+                <div>Speed: {{interface['speed']}} </div>
+                <div>Duplex: {{interface['duplex']}} </div>
+                <div>Admin state: {{interface['admin-status']}} </div>
+                <div>Port mode {{interface['port-mode']}} </div>
+                <div>Vlans: {{interface['vlans']}} </div>
+                <div>Sub-interfaces: {{interface['sub-interface']}} </div>
               </div>
             </div>
           </v-card-title>
@@ -28,8 +28,21 @@
 </template>
 
 <script>
+  import { mapGetters, mapActions} from 'vuex'
     export default {
-        name: "DetailInterface"
+      name: "DetailInterface",
+      methods:{
+          ...mapActions(["getNetElemAction"])
+      },
+      created() {
+        this.getNetElemAction(this.$route.params['idNE'])
+      },
+      computed: {
+        ...mapGetters(["getInterfaceByIdIdNe"]),
+        interface() {
+          return this.getInterfaceByIdIdNe(this.$route.params['idI'], this.$route.params['idNE'])
+        }
+      }
     }
 </script>
 

@@ -6,14 +6,17 @@
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">Network element </h3>
-              <div class="text-xs-left"> name:    </div>
+              <div class="text-xs-left"> name: {{element.name}}</div>
             </div>
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-actions>
-            <v-btn flat color="indigo darken-1" to="/network-elements/1" left>
+            <v-btn flat color="indigo darken-1"
+                   :to="'/network-elements/' + element.id"  left>
               Details
             </v-btn>
+            <v-btn flat  color="indigo darken-1"
+                   :to="'/links/' + element.id">Links </v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -23,6 +26,7 @@
 
 <script>
     export default {
+      props:['element'],
         name: "NetworkCard"
     }
 </script>

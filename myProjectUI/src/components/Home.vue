@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div align="center">
     <h2>Welcome to the Network system</h2>
   </div>
 

@@ -78,7 +78,6 @@ public class InventoryController {
     public List<Link> getLinkById(
             @ApiParam(value = "network element id", required = true)
             @PathVariable String id) {
-
         return inventoryService.getLinks(id);
     }
     @PostMapping("/links")

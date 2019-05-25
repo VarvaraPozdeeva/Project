@@ -6,7 +6,6 @@
       <v-toolbar-items >
         <v-btn flat to="/" >Home</v-btn>
         <v-btn flat to="/add" >Add</v-btn>
-        <v-btn flat to="/links">Links </v-btn>
         <v-btn flat to="/network-elements">Network Elements</v-btn>
       </v-toolbar-items>
     </v-toolbar>

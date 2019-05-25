@@ -40,11 +40,7 @@ export default new Router({
       ]
     },
     {
-      path: '/links',
-      component: Links
-    },
-    {
-      path: '/hw-components/:id',
+      path: '/hw-components/:idNE',
       component: DetailsHw
     },
     {
@@ -56,7 +52,11 @@ export default new Router({
       component: DetailsNePage
     },
     {
-      path: '/links/:id',
+      path: '/links/:idNE',
+      component: Links
+    },
+    {
+      path: '/links/:idNE/:idL',
       component: DetailsLink
     },
     {
