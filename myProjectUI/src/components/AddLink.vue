@@ -4,57 +4,71 @@
     <v-layout  align-center justify-start column fill-height  >
       <v-flex xs12 sm6 md3>
         <v-text-field
-          label="Name A interface" v-model="aInter"
+          label="Name A interface" :rules="aInterRule" v-model="link.aInter"
         ></v-text-field>
       </v-flex>
       <v-flex xs12 sm6 md3>
         <v-text-field
-          label="Name A network element"  v-model="zInter"
+          label="Name A network element" :rules="aNERule"   v-model="link.zInter"
         ></v-text-field>
       </v-flex>
       <v-flex xs12 sm6 md3>
         <v-text-field
-          label="Name Z interface" v-model="aNE"
+          label="Name Z interface" v-model="link.aNE"
         ></v-text-field>
       </v-flex>
       <v-flex xs12 sm6 md3>
         <v-text-field
-          label="Name Z network element" v-model="zNE"
+          label="Name Z network element" v-model="link.zNE"
         ></v-text-field>
       </v-flex>
 
     </v-layout>
-
+    <p ><strong class="red--text text--lighten-1">{{error}}</strong></p>
     <v-btn @click="addLink">Add</v-btn>
   </v-container>
 </template>
 
 <script>
+  import {mapActions} from 'vuex'
+
     export default {
         name: "AddLink",
       data(){
           return{
-            aInter:'',
-            zInter:'',
-            aNE:'',
-            zNE:''
+            link: {
+              aInter:'',
+              zInter:'',
+              aNE:'',
+              zNE:''
+            },
+            aInterRule:[
+              v => !!v || 'Enter a-interface please'
+            ],
+            aNERule:[
+              v => !!v || 'Enter a-ne please'
+            ],
+            error:''
         }
       },
        methods:{
-          addLink(){
+         ...mapActions(["addLinkAction"]),
+        async addLink(){
             const link ={
-              "a-interface": this.aInter,
-              "a-ne": this.zInter,
-              "z-interface": this.aNE,
-              "z-ne": this.zNE
+              "a-interface": this.link.aInter,
+              "a-ne": this.link.zInter,
+              "z-interface": this.link.aNE,
+              "z-ne": this.link.zNE
             };
-            this.$http.post('http://localhost:8080/data/links', link)
-              .then(response=>{
+            this.addLinkAction(link).then(
+              res=> {
                 console.log('')
-                },
-                error=>{
+                this.error =''
+              },
+              error=>{
                 console.log(error.bodyText)
-              });
+                this.error = error.bodyText
+              })
           }
        }
     }

@@ -15,6 +15,8 @@ public interface InventoryService {
 
     NetworkElement getNetworkElementById(String networkElementId);
 
+    NetworkElement delNetworkElementById(String id);
+
     HardwareComponent getHardwareComponent(String networkElementId);
 
     HardwareComponent storeHardwareComponent(String networkElementId, HardwareComponent component);
@@ -30,5 +32,7 @@ public interface InventoryService {
     List<Link> getLinks(String networkElementId);
 
     Link storeLink(Link link);
+
+    HardwareComponent deleteHardwareComponent(String id);
 }
 

@@ -67,7 +67,7 @@
     },
     methods:{
       ...mapActions(["addNeAction"]),
-      addNe(){
+      async addNe(){
         const ne ={
           "ip-address": this.element.ipAddress,
           "last-sync": this.element.LSync,
@@ -78,7 +78,12 @@
           "type": this.element.type,
           "vendor": this.element.vendor
         }
-        this.addNeAction(ne);
+        const res =  await this.addNeAction(ne)
+          console.log(res);
+        const data = res.body;
+        console.log(data.id);
+        this.$router.push({name: 'addHW', params:{idNE: data.id}});
+
       }
     }
   }

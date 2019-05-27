@@ -1,7 +1,11 @@
 <template>
   <div >
-    <link-card v-for="card in links" :key="card.id" :link="card"></link-card>
+    <v-layout align-center justify-start column fill-height>
+      <v-btn v-if="flag ==false" @click="addLink">Add link</v-btn>
+    <link-card v-else v-for="card in links" :key="card.id" :link="card"></link-card>
+    </v-layout>
   </div>
+
 </template>
 
 <script>
@@ -10,17 +14,25 @@
     export default {
         name: "LinkPage",
       components: {LinkCard},
+
       methods:{
-        ...mapActions(['getLinksAction'])
+        ...mapActions(['getLinksAction', "getDataAction"]),
+        addLink(){
+          this.$router.push({name: 'addLink'});
+        }
       },
       computed: {
         links(){
           console.log( this.$store.state.links);
           return this.$store.state.links
+        },
+        flag(){
+          return (this.$store.state.links.length !== 0)
         }
       },
       created() {
-        this.getLinksAction(this.$router.currentRoute.params['idNE']);
+        this.getDataAction();
+        this.getLinksAction(this.$route.params['idNE']);
       }
     }
 </script>

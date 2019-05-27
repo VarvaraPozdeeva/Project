@@ -26,6 +26,8 @@
               <v-btn flat   color="indigo darken-1"  :to="'/interfaces/' + this.id">
                 Interfaces
               </v-btn>
+              <v-btn flat  color="indigo darken-1" @click="deleteNE">
+                Delete </v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -43,7 +45,17 @@
           }
       },
       methods:{
-        ...mapActions(['getNetElemAction'])
+        ...mapActions(['getNetElemAction', "deleteNEAction", "getDataAction"]),
+        deleteNE(){
+          this.deleteNEAction(this.$route.params['id'])
+            .then(
+              res=>{
+                this.$router.push({path: '/network-elements'})
+              },
+              error=>{
+                console.log(error)
+              })
+        }
       },
       computed: mapState({
         ne: "netElement"

@@ -54,6 +54,14 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
+    public NetworkElement delNetworkElementById(String id) {
+        NetworkElement networkElement = findNeById(id);
+        //dell all edges with this ne
+        neRepository.delete(networkElement);
+        return networkElement;
+    }
+
+    @Override
     public HardwareComponent getHardwareComponent(String networkElementId) {
         String neId = getID(NETWORK_ELEMENT, networkElementId);
         ArangoCursor<HardwareComponent> cursor = hwRepository.getHwByNeId(neId);
@@ -165,7 +173,23 @@ public class InventoryServiceImpl implements InventoryService {
                 .interAName(aIntName).interZName(zIntName).build());
     }
 
+    @Override
+    public HardwareComponent deleteHardwareComponent(String id) {
+        NetworkElement networkElement = neRepository.findById(id).orElseThrow(
+                ()-> new ObjectNotFoundException("Unable to find network element with id: " + id ));
 
+        if(networkElement.getHardwareComponent() == null){
+            throw new IllegalStateException
+                    ("Network element with id: " + id + " has not hardware component");
+        }
+
+        HardwareComponent hwComponent = networkElement.getHardwareComponent();
+        hwRepository.delete(hwComponent);
+
+        neToHwRepository.removeNeToHwByNeId(getID(NETWORK_ELEMENT, id));
+
+        return hwComponent;
+    }
 
 
     private Interface findInterByNeIdAndName(String id, String intName) {

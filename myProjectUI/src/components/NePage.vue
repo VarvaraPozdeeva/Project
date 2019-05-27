@@ -8,19 +8,23 @@
 
 <script>
     import NetworkCard from "./NetworkCard";
-    import {mapActions, mapState} from 'vuex'
 
     export default {
       name: "NePage",
       components: {NetworkCard},
-      methods:{
-        ...mapActions(['getDataAction'])
+      data() {
+        return {
+          netElements: [],
+        }
       },
-      computed: mapState({
-        netElements: "netElements"
-      }),
       created() {
-        this.getDataAction();
+        this.$http.get('http://localhost:8080/data/network-elements')
+          .then(result => {
+            result.json().then(data => {
+              console.log(data);
+              this.netElements = data;
+            })
+          })
       }
     }
 </script>

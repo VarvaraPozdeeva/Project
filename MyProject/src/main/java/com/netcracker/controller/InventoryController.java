@@ -97,7 +97,7 @@ public class InventoryController {
 
         return inventoryService.getHardwareComponent(id);
     }
-    @PostMapping("/hw-components/{id}")
+    @PostMapping("/hardware-components/{id}")
     @ApiOperation(value = "Add hardware component")
     public HardwareComponent createHardwareComponent(
             @ApiParam(value = "network element id", required = true)
@@ -107,12 +107,28 @@ public class InventoryController {
 
         return inventoryService.storeHardwareComponent(id, hardwareCom);
     }
+    @DeleteMapping("/hardware-components/{id}")
+    @ApiOperation(value = "Get hardware component by network element id")
+    public HardwareComponent deleteHwComponent(
+            @ApiParam(value = "network element id", required = true)
+            @PathVariable String id) {
+
+        return inventoryService.deleteHardwareComponent(id);
+    }
 
     @GetMapping("/network-elements")
     @ApiOperation(value = "Show all network element ")
     public List<NetworkElement> getNetElements(){
 
         return inventoryService.getNetworkElements();
+    }
+    @DeleteMapping("/network-elements/{id}")
+    @ApiOperation(value = "Show all network element ")
+    public  NetworkElement delNetElement(
+            @ApiParam(value = "network element id", required = true)
+            @PathVariable String id){
+
+        return inventoryService.delNetworkElementById(id);
     }
 
     @GetMapping("/network-elements/{id}")

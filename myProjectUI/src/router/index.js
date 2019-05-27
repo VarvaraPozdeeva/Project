@@ -12,6 +12,7 @@ import Interfaces from '../components/Interfaces'
 import AddNE from '../components/AddNe'
 import AddHW from '../components/AddHW'
 import AddLink from '../components/AddLink'
+import AddInterfaces from '../components/AddInterfaces'
 
 Vue.use(Router)
 
@@ -22,6 +23,10 @@ export default new Router({
       component: Home
     },
     {
+      path: '/interfaces/:idNE',
+      component: Interfaces
+    },
+    {
       path: '/add',
       component: Add,
       children:[
@@ -30,13 +35,20 @@ export default new Router({
           component: AddNE
         },
         {
+          name:'addLink',
           path:'/add-link',
           component: AddLink
         },
         {
-          path:'/add-hw',
+          name:'addHW',
+          path:'/add-hw/:idNE',
           component: AddHW
-        }
+        },
+        {
+          name:'addInter',
+          path: '/interfaces/:idNE',
+          component: AddInterfaces
+        },
       ]
     },
     {
@@ -48,6 +60,7 @@ export default new Router({
       component: NePage
     },
     {
+      name: 'netElem',
       path: '/network-elements/:id',
       component: DetailsNePage
     },
@@ -59,10 +72,7 @@ export default new Router({
       path: '/links/:idNE/:idL',
       component: DetailsLink
     },
-    {
-      path: '/interfaces/:idNE',
-      component: Interfaces
-    },
+
     {
       path: '/interfaces/:idNE/:idI',
       component: DetailInterface
