@@ -1,14 +1,13 @@
 <template>
   <div align="center">
-    <h2>Welcome to the Network system</h2>
+    <img src="../img/network.jpg" height="100%" width="100%">
   </div>
-
 </template>
 
-<script>
-export default {
-  name: 'Home',
 
+<script>
+  export default {
+  name: 'Home'
 }
 </script>
 

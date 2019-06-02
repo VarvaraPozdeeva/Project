@@ -1,12 +1,11 @@
 <template>
   <v-app>
     <v-toolbar app>
-      <v-toolbar-title>Network system</v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-toolbar-title>Network inventory</v-toolbar-title>
+      <v-divider class="mx-2" inset vertical ></v-divider>
       <v-toolbar-items >
         <v-btn flat to="/" >Home</v-btn>
-        <v-btn flat to="/add" >Add</v-btn>
-        <v-btn flat to="/network-elements">Network Elements</v-btn>
+        <v-btn flat to="/inventory">Inventory</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
