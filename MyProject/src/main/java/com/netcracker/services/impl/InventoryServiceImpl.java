@@ -1,6 +1,8 @@
 package com.netcracker.services.impl;
 
 import com.arangodb.ArangoCursor;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.netcracker.exceptions.ObjectNotFoundException;
 import com.netcracker.model.documents.*;
@@ -20,10 +22,10 @@ import com.netcracker.services.api.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
-import static com.netcracker.model.CollectionsNames.INTERFACE;
-import static com.netcracker.model.CollectionsNames.NETWORK_ELEMENT;
+import static com.netcracker.model.CollectionsNames.*;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +58,13 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public NetworkElement delNetworkElementById(String id) {
         NetworkElement networkElement = findNeById(id);
-        //dell all edges with this ne
+
+        deleteHardwareComponent(id);
+
+        List<Interface>  interfaces = networkElement.getInterfaces();
+        interfaces.forEach(inter -> {
+            deleteInterfaces(inter.getId());
+        });
         neRepository.delete(networkElement);
         return networkElement;
     }
@@ -104,7 +112,8 @@ public class InventoryServiceImpl implements InventoryService {
                 ()-> new ObjectNotFoundException("Unable to find network element with id: " + networkElementId ));
 
         if(networkElement.getInterfaces().contains(inter)){
-            throw new IllegalStateException("Network element with id: " + networkElementId + " already has assigned interface");
+            throw new IllegalStateException
+                    ("Network element with id: " + networkElementId + " already has assigned interface");
         }
 
         Interface anInterface = interfaceRepository.save(inter);
@@ -191,11 +200,88 @@ public class InventoryServiceImpl implements InventoryService {
         return hwComponent;
     }
 
+    @Override
+    public Link deleteLink(String id) {
+
+        String idLink = getID(LINK, id);
+        Link link = linkRepository.findById(idLink)
+                .orElseThrow(()-> new ObjectNotFoundException
+                        ("Unable to find link with id: " + id));
+        linkRepository.delete(link);
+        return link;
+    }
+
+    @Override
+    public List<Link> getAllLinks() {
+
+        return Lists.newArrayList(linkRepository.findAll());
+    }
+
+    @Override
+    public Interface deleteInterfaces(String id) {
+        String idInterface = getID(INTERFACE, id);
+        Interface inter = interfaceRepository.findById(idInterface)
+                .orElseThrow(()->new ObjectNotFoundException
+                        ("Unable to find interface with id :" + id));
+
+       NeToInterface neToInt =  neToInterRepository.findNeIdByInterID(idInterface).asListRemaining()
+               .stream().findFirst().orElseThrow(()-> new ObjectNotFoundException(("Unabled to find")));
+
+       String neName = neToInt.getNe().getName();
+       List<Link> links = linkRepository.findAllByNeNameAndInterName(neName, inter.getName()).asListRemaining();
+       links.forEach(l->{deleteLink(l.getId());});
+        neToInterRepository.removeNeToInterfaceByIntId(idInterface);
+
+        List<SubInterface> sunInter =  inter.getSubInterfaces();
+        sunInter.forEach(subRepository::delete);
+
+        intToSubRepository.removeIntToSubByIntId(idInterface);
+
+        interfaceRepository.delete(inter);
+
+        return  inter;
+    }
+
+    @Override
+    public String storeData(String data) throws IOException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode nodes = mapper.readTree(data);
+
+        for (JsonNode rootNode: nodes) {
+
+            JsonNode hw = rootNode.path("hw-component");
+            JsonNode ne = rootNode.path("network-element");
+            JsonNode inter = rootNode.path("interface");
+            JsonNode subInt = rootNode.path("sub-interface");
+
+            NetworkElement netElem = mapper.treeToValue(ne, NetworkElement.class);
+            HardwareComponent hwComp = mapper.treeToValue(hw, HardwareComponent.class);
+            Interface[] interfaces = mapper.treeToValue(inter, Interface[].class);
+
+            netElem = storeNetworkElement(netElem);
+            storeHardwareComponent(netElem.getId(), hwComp);
+            Interface in = null;
+            for (Interface i : interfaces) {
+                in = storeInterface(netElem.getId(), i);
+            }
+
+            if (!(subInt.isMissingNode())) {
+                SubInterface[] subInterfaces = mapper.treeToValue(subInt, SubInterface[].class);
+                for (SubInterface s : subInterfaces) {
+                    storeSubInterface(in.getId(), s);
+                }
+            }
+        }
+
+        return "added";
+    }
 
     private Interface findInterByNeIdAndName(String id, String intName) {
         return interfaceRepository.findInterfaceByNeIdAndName(id,intName)
                 .asListRemaining().stream().findFirst()
-                .orElseThrow(()->new ObjectNotFoundException("Unable to find interface with name: " + intName));
+                .orElseThrow(()->new ObjectNotFoundException
+                        ("Unable to find interface with name: " + intName));
     }
 
     private NetworkElement findNeByName(String neName) {
@@ -214,6 +300,4 @@ public class InventoryServiceImpl implements InventoryService {
       return  neRepository.findById(networkElementId).orElseThrow(()-> new ObjectNotFoundException
                 ("Unable to find network element with id : " + networkElementId ));
     }
-
-
 }

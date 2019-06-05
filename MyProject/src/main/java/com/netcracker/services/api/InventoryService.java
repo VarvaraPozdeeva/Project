@@ -6,6 +6,7 @@ import com.netcracker.model.documents.NetworkElement;
 import com.netcracker.model.documents.SubInterface;
 import com.netcracker.model.edges.Link;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface InventoryService {
@@ -34,5 +35,13 @@ public interface InventoryService {
     Link storeLink(Link link);
 
     HardwareComponent deleteHardwareComponent(String id);
+
+    Link deleteLink(String id);
+
+    List<Link> getAllLinks();
+
+    Interface deleteInterfaces(String id);
+
+    String storeData(String data) throws IOException;
 }
 

@@ -91,7 +91,7 @@
       initSub(){
         const id = this.idI
         this.getSubByIdInt(id);
-        setTimeout(() => { this.subInters = this.$store.state.subInters;}, 300);
+        setTimeout(() => { this.subInters = this.$store.state.subInters;}, 500);
       },
       addSub(){
         setTimeout(() => {this.initSub (); console.log('saveSubInter')}, 500);
