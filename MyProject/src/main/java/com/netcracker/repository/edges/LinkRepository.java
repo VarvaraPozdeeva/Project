@@ -18,12 +18,17 @@ public interface LinkRepository extends ArangoRepository<Link, String> {
                                            @Param("aInt")String aInt,
                                            @Param("zInt")String zInt);
 
-    @Query("for link IN `link` filter link.`a-ne` == @neName || link.`z-ne` == @neName  return link")
+    @Query("for link IN `link` filter link.`a-ne` == @neName " +
+            "|| link.`z-ne` == @neName  return link")
     ArangoCursor<Link> findAllByNeName(@Param("neName")String neName);
 
-    @Query("for link IN `link` filter (link.`a-ne` == @neName  && link.`a-interface` == @intName) " +
-            "|| (link.`z-ne` == @neName && link.`z-interface` == @intName )  return link")
-    ArangoCursor<Link> findAllByNeNameAndInterName(@Param("neName")String neName, @Param("intName")String intName );
+    @Query("for link IN `link` filter (link.`a-ne` == @neName  " +
+            "&& link.`a-interface` == @intName) " +
+            "|| (link.`z-ne` == @neName && link.`z-interface` == @intName )" +
+            "  return link")
+    ArangoCursor<Link> findAllByNeNameAndInterName
+            (@Param("neName")String neName,
+             @Param("intName")String intName );
 
     @Query(" FOR link IN link RETURN link")
     ArangoCursor<Link> findAllLinks();

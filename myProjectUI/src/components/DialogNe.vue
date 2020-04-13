@@ -36,9 +36,16 @@
                     </v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md4>
-                    <v-text-field  label="Type" v-model="element.type" >
+<!--                    <v-text-field  label="Type" v-model="element.type" >-->
 
-                    </v-text-field>
+<!--                    </v-text-field>-->
+
+                    <v-select
+                      :items="type"
+                      v-model="element.type"
+                      label="Type"
+                      required
+                    ></v-select>
                   </v-flex>
                   <v-flex xs12 sm6 md4>
                     <v-text-field
@@ -143,6 +150,7 @@
         dialog: false,
         e1: 0,
         idNE:'',
+        type:['router', 'switch'],
         element:{
           nameNe:'',
           type:'',

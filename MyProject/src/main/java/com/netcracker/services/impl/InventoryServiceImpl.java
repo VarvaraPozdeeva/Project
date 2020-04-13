@@ -56,7 +56,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public NetworkElement delNetworkElementById(String id) {
+    public NetworkElement removeNetworkElementById(String id) {
         NetworkElement networkElement = findNeById(id);
 
         deleteHardwareComponent(id);
@@ -79,6 +79,9 @@ public class InventoryServiceImpl implements InventoryService {
                 ("Unable to found hardware component for network element with id: " + networkElementId));
     }
 
+
+
+
     @Override
     public HardwareComponent storeHardwareComponent(String networkElementId, HardwareComponent component) {
 
@@ -98,6 +101,9 @@ public class InventoryServiceImpl implements InventoryService {
 
         return hwComponent;
     }
+
+
+
 
     @Override
     public List<Interface> getInterfaces(String networkElementId) {
@@ -182,6 +188,7 @@ public class InventoryServiceImpl implements InventoryService {
                 .interAName(aIntName).interZName(zIntName).build());
     }
 
+
     @Override
     public HardwareComponent deleteHardwareComponent(String id) {
         NetworkElement networkElement = neRepository.findById(id).orElseThrow(
@@ -199,6 +206,8 @@ public class InventoryServiceImpl implements InventoryService {
 
         return hwComponent;
     }
+
+
 
     @Override
     public Link deleteLink(String id) {

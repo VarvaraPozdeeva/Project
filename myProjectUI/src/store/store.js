@@ -22,7 +22,6 @@ export default new Vuex.Store({
     getElemByName: state => name => {
       return state.netElements.find(e => e.name === name).id;
     },
-    //getInterfaces:state=>{return state.interfaces},
     getNetElements:state=>{return state.netElements},
     getNetElement:state=>{return state.netElement},
     getHwComponent:state=>{return state.hwComponent},
@@ -217,6 +216,7 @@ export default new Vuex.Store({
         commit('addInter', inter);
       }
     },
+
     async deleteNEAction({commit}, id){
       const result = await Vue.http.delete(this.state.path + 'network-elements/' + id);
       console.log(result);
@@ -227,7 +227,6 @@ export default new Vuex.Store({
         return result.statusText
       }
     },
-
     async deleteHWAction({commit}, id){
       const result = await Vue.http.delete(this.state.path + 'hardware-components/' + id);
       console.log(result);
@@ -238,6 +237,14 @@ export default new Vuex.Store({
         return result.statusText
       }
     },
+
+
+
+
+
+
+
+
     async deleteLinkAction({commit}, link){
        const id = link.id
       const result = await Vue.http.delete(this.state.path + 'links/' + id);

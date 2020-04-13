@@ -85,18 +85,18 @@
         if(this.aNeSelect === '')
           return [];
         this.getAInterfaceByNameNEAction(this.aNeSelect);
-        let inters = []
-        this.$store.state.Ainterfaces.forEach(i=>inters.push(i.name))
-        return inters
-
+        let inters = [];
+        this.$store.state.Ainterfaces.forEach(i=>inters.push(i.name));
+        return this.check(inters, this.aNeSelect);
       },
+
       zInter(){
         if(this.zNeSelect === '')
           return [];
         this.getZInterfaceByNameNEAction(this.zNeSelect);
         let inters = []
         this.$store.state.Zinterfaces.forEach(i=>inters.push(i.name))
-        return inters
+        return this.check(inters, this.zNeSelect)
       },
 
       zNE(){
@@ -144,6 +144,21 @@
             console.log(error.bodyText)
           })
 
+      },
+      check(inters, ne){
+        let links=[];
+        this.$store.state.links.forEach(l=>{
+          if(l['a-ne'] === ne || l['z-ne'] === ne){
+            links.push(l);
+          }
+        });
+        links.forEach(
+          l=>{
+            const index = inters.findIndex(i=> i=== l['a-interface'] || i === l['z-interface'] )
+            inters = [ ...inters.slice(0, index), ...inters.slice(index+1)]
+          }
+        );
+        return inters;
       },
       clear(){
         this.aNeSelect=''

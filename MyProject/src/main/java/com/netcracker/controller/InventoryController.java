@@ -11,10 +11,16 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 @RestController
 @RequestMapping("/data")
 @Api(value = "Network inventory service")
@@ -134,7 +140,7 @@ public class InventoryController {
             @ApiParam(value = "network element id", required = true)
             @PathVariable String id){
 
-        return inventoryService.delNetworkElementById(id);
+        return inventoryService.removeNetworkElementById(id);
     }
 
     @GetMapping("/network-elements/{id}")
@@ -163,4 +169,10 @@ public class InventoryController {
         return inventoryService.storeData(data);
     }
 
+    @GetMapping("/test")
+    @ApiOperation(value = "Get network element by id")
+    public String getNetElementById() {
+
+        return "test";
+    }
 }

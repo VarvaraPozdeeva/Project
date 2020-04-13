@@ -4,10 +4,10 @@
     <v-toolbar flat color="white">
 
       <v-toolbar-items >
-        <v-btn flat @click="ne">Details</v-btn>
-        <v-btn flat @click="hwComponentFlag">Hardware Component</v-btn>
-        <v-btn flat @click="interfacesFlag">Interfaces</v-btn>
-        <v-btn flat @click="linksFlag">Links</v-btn>
+        <v-btn flat :class="{active :flagNe}" @click="ne">Details</v-btn>
+        <v-btn flat :class="{active :flagHw}" @click="hwComponentFlag">Hardware Component</v-btn>
+        <v-btn flat :class="{active :flagInt}" @click="interfacesFlag">Interfaces</v-btn>
+        <v-btn flat :class="{active :flagLink}" @click="linksFlag">Links</v-btn>
       </v-toolbar-items>
 
       <v-spacer></v-spacer>
@@ -27,7 +27,6 @@
           </v-btn></td>
         <td class="text-xs-left">{{ inter.item['mac-address'] }}</td>
         <td class="text-xs-left">{{ inter.item['ip-address']}}</td>
-        <td class="text-xs-left">{{ inter.item['ip-address'] }}</td>
         <td class="text-xs-left">{{ inter.item['admin-status'] }}</td>
         <td class="justify-left layout px-0">
           <v-icon    @click="deleteInter(inter.item)">
@@ -189,6 +188,11 @@
   }
 </script>
 
+
 <style scoped>
+
+  .active{
+    background-color: #dddddd;
+  }
 
 </style>

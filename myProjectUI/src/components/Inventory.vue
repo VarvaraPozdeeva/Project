@@ -3,8 +3,8 @@
     <v-toolbar flat color="white">
 
       <v-toolbar-items >
-        <v-btn flat @click="ne" >Network elements</v-btn>
-        <v-btn flat @click="link">Links</v-btn>
+        <v-btn flat :class="{active :flagNe}" @click="ne" >Network elements</v-btn>
+        <v-btn flat  :class="{active :flagLink}" @click="link">Links</v-btn>
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <dialog-ne v-if="flagNe===true" @add="addNe"></dialog-ne>
@@ -117,8 +117,10 @@
       deleteNE (item) {
         this.deleteNEAction(item.id)
         const index =  this.netElems.findIndex(e=>e.id === item.id)
-        this.netElems = [...this.netElems.slice(0,index),
-          ...this.netElems.slice(index+1)];
+        this.netElems = [
+          ...this.netElems.slice(0,index),
+          ...this.netElems.slice(index+1)
+        ];
         this.$store.state.netElements = this.netElems;
         setTimeout(() => {this.initializeLink()}, 300);
       },
@@ -133,6 +135,7 @@
         setTimeout(() => {this.initializeLink (); console.log('saveLink')}, 600);
       },
       link(){
+        this.initializeLink();
         this.flagNe = false
         this.flagLink = true
       },
@@ -153,5 +156,7 @@
 </script>
 
 <style scoped>
-
+  .active{
+    background-color: #dddddd;
+  }
 </style>

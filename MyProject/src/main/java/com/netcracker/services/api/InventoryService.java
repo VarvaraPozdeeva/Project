@@ -16,7 +16,7 @@ public interface InventoryService {
 
     NetworkElement getNetworkElementById(String networkElementId);
 
-    NetworkElement delNetworkElementById(String id);
+    NetworkElement removeNetworkElementById(String id);
 
     HardwareComponent getHardwareComponent(String networkElementId);
 

@@ -3,17 +3,15 @@
 
     <v-card>
       <v-card-title primary-title>
-        <div>
           <h3 class="headline mb-0">Hardware component</h3>
-          <div class="text-xs-left" >
-            <div><b>Name:</b> {{component.name}} </div>
-            <div><b>Description:</b> {{component.description}} </div>
-            <div><b>Hardware rev:</b> {{component['hardware-rev']}} </div>
-            <div><b>Board id:</b> {{component['board-id']}} </div>
-            <div><b>Part number:</b> {{component['part-number']}} </div>
-          </div>
-        </div>
       </v-card-title>
+      <table>
+        <tr><td class="prop"><b>Name</b></td><td>{{component.name}} </td></tr>
+        <tr><td class="prop"><b>Description</b> </td><td>{{component.description}} </td></tr>
+        <tr><td class="prop"><b>Hardware rev</b></td><td>{{component['hardware-rev']}} </td></tr>
+        <tr><td class="prop"><b>Board id</b></td><td>{{component['board-id']}} </td></tr>
+        <tr><td class="prop"><b>Part number</b></td><td>{{component['part-number']}} </td></tr>
+      </table>
 
     </v-card>
   </div>
@@ -45,5 +43,16 @@
 </script>
 
 <style scoped>
-
+  table{
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .prop{
+    width: 30%;
+  }
+  td, th{
+    padding: 8px;
+    padding: 8px 8px 8px 60px;
+    border-bottom: 1px solid #ddd;
+  }
 </style>

@@ -5,7 +5,7 @@ import DetailsHw from '../components/DetailsHw'
 import DetailsNePage from '../components/DetailsNe'
 import InventoryPage from '../components/InventoryPage'
 import DetailInterface from '../components/DetailInterface'
-import LinkCard from '../components/LinkCard'
+import DetailsLink from '../components/DetailsLink'
 
 Vue.use(Router)
 
@@ -32,7 +32,7 @@ export default new Router({
     },
     {
       path: '/links/:id',
-      component: LinkCard
+      component: DetailsLink
     },
     {
       path: '/interfaces/:idNE/:idI',

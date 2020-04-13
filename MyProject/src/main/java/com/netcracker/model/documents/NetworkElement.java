@@ -4,8 +4,6 @@ import com.arangodb.springframework.annotation.Document;
 import com.arangodb.springframework.annotation.Field;
 import com.arangodb.springframework.annotation.Relations;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.netcracker.model.documents.HardwareComponent;
-import com.netcracker.model.documents.Interface;
 import com.netcracker.model.edges.NeToHw;
 import com.netcracker.model.edges.NeToInterface;
 import io.swagger.annotations.ApiModel;
@@ -60,6 +58,4 @@ public class NetworkElement implements DocumentEntity {
     @ApiModelProperty(hidden = true)
     @JsonProperty("interfaces")
     private List<Interface> interfaces;
-
-
 }

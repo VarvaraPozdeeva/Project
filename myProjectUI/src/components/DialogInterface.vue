@@ -110,18 +110,18 @@
       save(){
 
         const inter = {
-          "admin-status": this.subInterface.adminState,
-          "description":this.subInterface.description ,
-          "duplex": this.subInterface.duplex,
-          "ip-address": this.subInterface.ipAddress,
-          "mac-address": this.subInterface.macAdress,
-          "mtu": this.subInterface.mtu,
-          "name": this.subInterface.name,
-          "port-mode": this.subInterface.portMode,
-          "speed": this.subInterface.speed,
+          "admin-status": this.interface.adminState,
+          "description":this.interface.description ,
+          "duplex": this.interface.duplex,
+          "ip-address": this.interface.ipAddress,
+          "mac-address": this.interface.macAdress,
+          "mtu": this.interface.mtu,
+          "name": this.interface.name,
+          "port-mode": this.interface.portMode,
+          "speed": this.interface.speed,
           idNE: this.$route.params['id']
         };
-        inter.vlans = this.subInterface.vlans.split(/[\s,]+/)
+        inter.vlans = this.interface.vlans.split(/[\s,]+/)
         this.addInterAction(inter).then(
           res=>{
             console.log(res)
@@ -137,16 +137,16 @@
           })
       },
       clear(){
-        this.subInterface.adminState=''
-        this.subInterface.description =''
-        this.subInterface.duplex=''
-        this.subInterface.ipAddress=''
-        this.subInterface.macAdress=''
-        this.subInterface.mtu=''
-        this.subInterface.name=''
-        this.subInterface.portMode=''
-        this.subInterface.speed=''
-        this.subInterface.vlans =''
+        this.interface.adminState=''
+        this.interface.description =''
+        this.interface.duplex=''
+        this.interface.ipAddress=''
+        this.interface.macAdress=''
+        this.interface.mtu=''
+        this.interface.name=''
+        this.interface.portMode=''
+        this.interface.speed=''
+        this.interface.vlans =''
 
       },
       close(){
