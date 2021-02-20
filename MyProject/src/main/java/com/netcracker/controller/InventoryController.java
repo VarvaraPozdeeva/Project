@@ -1,32 +1,25 @@
 package com.netcracker.controller;
 
-import com.netcracker.exceptions.ObjectNotFoundException;
 import com.netcracker.model.documents.HardwareComponent;
 import com.netcracker.model.documents.Interface;
 import com.netcracker.model.documents.NetworkElement;
 import com.netcracker.model.documents.SubInterface;
-import com.netcracker.model.edges.IntToSub;
 import com.netcracker.model.edges.Link;
-import com.netcracker.model.edges.NeToHw;
-import com.netcracker.model.edges.NeToInterface;
 
-import com.netcracker.repository.documents.HwRepository;
-import com.netcracker.repository.documents.InterfaceRepository;
-import com.netcracker.repository.documents.NeRepository;
-import com.netcracker.repository.documents.SubRepository;
-import com.netcracker.repository.edges.IntToSubRepository;
-import com.netcracker.repository.edges.LinkRepository;
-import com.netcracker.repository.edges.NeToHwRepository;
-import com.netcracker.repository.edges.NeToInterRepository;
 import com.netcracker.services.api.InventoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping("/data")
@@ -53,7 +46,14 @@ public class InventoryController {
             @RequestBody Interface inter ){
         return inventoryService.storeInterface(id, inter);
     }
+    @DeleteMapping("/interfaces/{id}")
+    @ApiOperation(value = "Delete interface by id ")
+    public Interface deleteInterfaces(
+            @ApiParam(value = "interface id", required = true)
+            @PathVariable String id) {
 
+        return inventoryService.deleteInterfaces(id);
+    }
 
     @GetMapping("/sub-interfaces/{id}")
     @ApiOperation(value = "Show all sub interface by id interface")
@@ -78,7 +78,6 @@ public class InventoryController {
     public List<Link> getLinkById(
             @ApiParam(value = "network element id", required = true)
             @PathVariable String id) {
-
         return inventoryService.getLinks(id);
     }
     @PostMapping("/links")
@@ -86,8 +85,20 @@ public class InventoryController {
     public Link createLink(
             @ApiParam(value = "Link object", required = true)
             @RequestBody Link ln){
-
         return inventoryService.storeLink(ln);
+    }
+    @GetMapping("/links")
+    @ApiOperation(value = "Get link")
+    public List<Link> getLink(){
+        return inventoryService.getAllLinks();
+    }
+
+    @DeleteMapping("/links/{id}")
+    @ApiOperation(value = "Delete link")
+    public Link deleteLink(
+            @ApiParam(value = "link id", required = true)
+            @PathVariable String id ){
+        return inventoryService.deleteLink(id);
     }
 
     @GetMapping("/hardware-components/{id}")
@@ -98,7 +109,7 @@ public class InventoryController {
 
         return inventoryService.getHardwareComponent(id);
     }
-    @PostMapping("/hw-components/{id}")
+    @PostMapping("/hardware-components/{id}")
     @ApiOperation(value = "Add hardware component")
     public HardwareComponent createHardwareComponent(
             @ApiParam(value = "network element id", required = true)
@@ -108,12 +119,28 @@ public class InventoryController {
 
         return inventoryService.storeHardwareComponent(id, hardwareCom);
     }
+    @DeleteMapping("/hardware-components/{id}")
+    @ApiOperation(value = "Delete hardware component by network element id")
+    public HardwareComponent deleteHwComponent(
+            @ApiParam(value = "network element id", required = true)
+            @PathVariable String id) {
+
+        return inventoryService.deleteHardwareComponent(id);
+    }
 
     @GetMapping("/network-elements")
     @ApiOperation(value = "Show all network element ")
     public List<NetworkElement> getNetElements(){
 
         return inventoryService.getNetworkElements();
+    }
+    @DeleteMapping("/network-elements/{id}")
+    @ApiOperation(value = "Delete network element by id ")
+    public  NetworkElement delNetElement(
+            @ApiParam(value = "network element id", required = true)
+            @PathVariable String id){
+
+        return inventoryService.removeNetworkElementById(id);
     }
 
     @GetMapping("/network-elements/{id}")
@@ -133,5 +160,19 @@ public class InventoryController {
         return inventoryService.storeNetworkElement(networkEl);
     }
 
+    @PostMapping
+    @ApiOperation(value = "Add all data")
+    public String storeData(
+            @ApiParam(value = "Data", required = true)
+            @RequestBody String data) throws IOException {
 
+        return inventoryService.storeData(data);
+    }
+
+    @GetMapping("/test")
+    @ApiOperation(value = "Get network element by id")
+    public String getNetElementById() {
+
+        return "test";
+    }
 }

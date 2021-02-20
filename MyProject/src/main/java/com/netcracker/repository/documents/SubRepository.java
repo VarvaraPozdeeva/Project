@@ -10,6 +10,6 @@ import static com.netcracker.model.CollectionsNames.INT_TO_SUB;
 
 public interface SubRepository extends ArangoRepository<SubInterface, String> {
 
-    @Query("FOR sub IN 1..1 @intID `" + INT_TO_SUB + "` RETURN sub")
+    @Query("FOR sub IN 1..1 OUTBOUND @intID `" + INT_TO_SUB + "` RETURN sub")
     ArangoCursor<SubInterface> findByIntId(@Param("intID") String intId);
 }
